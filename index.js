@@ -13,9 +13,10 @@ const db = mysql.createConnection(
 );
 
 const questions = [
-    'first question',
-    'second question',
+    'Please choose an option below... ',                    //0
+    'second question',                                      //2
     'third question',
     'fourth question',
     'fith question'
-]
+];
+
