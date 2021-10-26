@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const { prompt } = require('inquirer');
+const Query = require('./utils/constructor.js');
 
 
 const db = mysql.createConnection(

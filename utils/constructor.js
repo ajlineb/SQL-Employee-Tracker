@@ -79,7 +79,7 @@ class QueryBuilder {
     };
 
     updateRole(){
-        db.query(`UPDATE employee SET role_id = ${this.role_id} WHERE first_name = "${this.first_name}" AND last_name = "${this.last_name}"`, (err, result) => {    //still need to change the manager somehow...
+        db.query(`UPDATE employee SET role_id = ${this.role_id} WHERE first_name = "${this.first_name}" AND last_name = "${this.last_name}"`, (err, result) => {    //still need to change the manager somehow... another function inside that does a update..
             if(err){
                 console.log(err);
                 return;
