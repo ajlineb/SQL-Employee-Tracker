@@ -23,7 +23,7 @@ class QueryBuilder {
     };
 
     viewAllRoles() {
-        db.query('SELECT role.title, role.department_id, department.department_name, role.salary FROM role LEFT JOIN department ON department.id = role.department_id', (err, result) => {
+        db.query('SELECT role.title AS role_title, role.department_id AS role_ID, department.department_name, role.salary FROM role LEFT JOIN department ON department.id = role.department_id', (err, result) => {
             if (err){
                 console.log(err);
                 return;
@@ -33,7 +33,13 @@ class QueryBuilder {
     };
 
     viewAllEmployees() {
-
+        db.query('SELECT e.id, e.first_name, e.last_name, m.first_name AS Manager, role.title, department.department_name, role.salary FROM employee e JOIN role ON e.role_id = role.id JOIN department ON role.department_id = department.id LEFT JOIN employee m ON e.manager_id = m.id', (err, result) => {
+            if(err){
+                console.log(err);
+                return;
+            };
+            return result;
+        })
     }
 
     addDepartment() {
