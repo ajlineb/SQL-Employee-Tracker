@@ -59,7 +59,7 @@ class QueryBuilder {
     };
 
     addEmployee() {
-        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${this.first_name}"), ("${this.last_name}"), ("${this.role_id}"), ("${this.manager_id}")`, (err, result) => {
+        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${this.first_name}", "${this.last_name}", "${this.role_id}", "${this.manager_id}")`, (err, result) => {
             if(err){
                 console.log(err);
                 return;
@@ -69,7 +69,7 @@ class QueryBuilder {
     };
 
     addRole() {
-        db.query(`INSERT INTO role (title, department_id, salary) VALUES ("${this.title}"), ("${this.department_id}"), ("${this.salary}")`, (err, result) => {
+        db.query(`INSERT INTO role (title, department_id, salary) VALUES ("${this.title}", "${this.department_id}", "${this.salary}")`, (err, result) => {
             if(err){
                 console.log(err);
                 return;
@@ -79,7 +79,7 @@ class QueryBuilder {
     };
 
     updateRole(){
-        db.query(`UPDATE employee SET role_id = ${this.role_id} WHERE first_name = ${this.first_name} AND last_name = ${this.last_name}`, (err, result) => {
+        db.query(`UPDATE employee SET role_id = ${this.role_id} WHERE first_name = "${this.first_name}" AND last_name = "${this.last_name}"`, (err, result) => {
             if(err){
                 console.log(err);
                 return;
