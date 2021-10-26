@@ -68,9 +68,25 @@ class QueryBuilder {
         });
     };
 
-    updateRole() {
+    addRole() {
+        db.query(`INSERT INTO role (title, department_id, salary) VALUES ("${this.title}"), ("${this.department_id}"), ("${this.salary}")`, (err, result) => {
+            if(err){
+                console.log(err);
+                return;
+            };
+            return results;
+        });
+    };
 
-    }
+    updateRole(){
+        db.query(`UPDATE employee SET role_id = ${this.role_id} WHERE first_name = ${this.first_name} AND last_name = ${this.last_name}`, (err, result) => {
+            if(err){
+                console.log(err);
+                return;
+            };
+            return results;
+        });
+    };
 };
 
 module.exports = QueryBuilder;
