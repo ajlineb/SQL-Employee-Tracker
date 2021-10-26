@@ -11,9 +11,15 @@ const db = mysql.createConnection(
 );
 
 class QueryBuilder {
-    constructor(something1, something2) {
-        this.something1 = something1;
-        this.something2 = something2;
+    constructor(department_name, title, department_id, salary, first_name, last_name, role_id, manager_id) {
+        this.department_name = department_name;
+        this.title = title;
+        this.department_id = department_id;
+        this.salary = salary;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.role_id = role_id;
+        this.manager_id = manager_id;
     };
 
     viewAllDepartments() {
@@ -40,15 +46,27 @@ class QueryBuilder {
             };
             return result;
         })
-    }
+    };
 
     addDepartment() {
-
-    }
+        db.query(`INSERT INTO department (department_name) VALUES ("${this.department_name}")`, (err, results) => {
+            if(err){
+                console.log(err);
+                return;
+            };
+            return result;
+        });
+    };
 
     addEmployee() {
-
-    }
+        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${this.first_name}"), ("${this.last_name}"), ("${this.role_id}"), ("${this.manager_id}")`, (err, result) => {
+            if(err){
+                console.log(err);
+                return;
+            };
+            return results;
+        });
+    };
 
     updateRole() {
 
