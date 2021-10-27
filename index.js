@@ -15,9 +15,16 @@ const db = mysql.createConnection(
 
 const questions = [
     'Please choose an option below... ',                    //0
-    'second question',                                      //2
-    'third question',
-    'fourth question',
-    'fith question'
+    'What is the name of the Department?',                  //2
+    'What is the name of the Role?',
+    'What is the salary of the Role?',
+    'Which department does the role belong to?',
+    'What is the employee\'s first name?',
+    'What is the employee\'s last name?',
+    'What is the employee\'s role?',
+    'Who is the employee\'s manager?',
+    'Which employee\'s role do you want to update?',
+    'Which role do you want to assign the selected employee?',
+    
 ];
 
