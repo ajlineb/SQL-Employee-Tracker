@@ -33,7 +33,7 @@ The user can keep up with their employees using multiple tables. They can see al
 
 ## Images  
 
-![alt website](./image/employeeDataBase.png)  
+![alt website](/image/employeeDataBase.png)  
 
 ## Credits  
 
