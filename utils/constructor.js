@@ -1,92 +1,74 @@
-const mysql = require('mysql2');
+db = require("../connection/connection.js");
 
-const db = mysql.createConnection(
-    {
-        host: 'localhost',
-        user: 'root',
-        password: '12345678',
-        database: 'employee_db'
-    },
-    console.log('Connected to the employee database !')
-);
-
-class QueryBuilder {
-    constructor(department_name, title, department_id, salary, first_name, last_name, role_id, manager_id) {
-        this.department_name = department_name;
-        this.title = title;
-        this.department_id = department_id;
-        this.salary = salary;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.role_id = role_id;
-        this.manager_id = manager_id;
-    };
-
-    viewAllDepartments() {
-        db.query('SELECT * FROM departments', function (err, results) {
-            return results;
-        });
-    };
-
-    viewAllRoles() {
-        db.query('SELECT role.title AS role_title, role.department_id AS role_ID, department.department_name, role.salary FROM role LEFT JOIN department ON department.id = role.department_id', (err, result) => {
-            if (err){
-                console.log(err);
-                return;
-            };
-            return result;
-        });
-    };
-
-    viewAllEmployees() {
-        db.query('SELECT e.id, e.first_name, e.last_name, m.first_name AS Manager, role.title, department.department_name, role.salary FROM employee e JOIN role ON e.role_id = role.id JOIN department ON role.department_id = department.id LEFT JOIN employee m ON e.manager_id = m.id', (err, result) => {
-            if(err){
-                console.log(err);
-                return;
-            };
-            return result;
-        })
-    };
-
-    addDepartment() {
-        db.query(`INSERT INTO department (department_name) VALUES ("${this.department_name}")`, (err, results) => {
-            if(err){
-                console.log(err);
-                return;
-            };
-            return result;
-        });
-    };
-
-    addEmployee() {
-        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${this.first_name}", "${this.last_name}", "${this.role_id}", "${this.manager_id}")`, (err, result) => {
-            if(err){
-                console.log(err);
-                return;
-            };
-            return results;
-        });
-    };
-
-    addRole() {
-        db.query(`INSERT INTO role (title, department_id, salary) VALUES ("${this.title}", "${this.department_id}", "${this.salary}")`, (err, result) => {
-            if(err){
-                console.log(err);
-                return;
-            };
-            return results;
-        });
-    };
-
-    updateRole(){
-        db.query(`UPDATE employee SET role_id = ${this.role_id} WHERE first_name = "${this.first_name}" AND last_name = "${this.last_name}"`, (err, result) => {    //still need to change the manager somehow... another function inside that does a update..
-            if(err){
-                console.log(err);
-                return;
-            };
-            return results;
-        });
-    };
+const viewAllDepartments = () => {
+    db.query('SELECT * FROM departments', function (err, results) {
+        console.log(' ')
+        console.log('-------------------------DEPARTMENTS-----------------------------')
+        console.table(results)
+        console.log('Press up or down to continue...')
+    });
 };
 
-module.exports = QueryBuilder;
+const viewAllRoles = () => {
+    db.query('SELECT role.title AS role_title, role.department_id AS role_ID, department.department_name, role.salary FROM role LEFT JOIN department ON department.id = role.department_id', (err, results) => {
+        if (err){
+            console.log(err);
+            return;
+        };
+        console.log(' ')
+        console.log('-------------------------ROLES-----------------------------')
+        console.table(results)
+        console.log('Press up or down to continue...')
+    });
+};
+
+const viewAllEmployees = () => {
+    db.query('SELECT e.id, e.first_name, e.last_name, m.first_name AS Manager, role.title, department.department_name, role.salary FROM employee e JOIN role ON e.role_id = role.id JOIN department ON role.department_id = department.id LEFT JOIN employee m ON e.manager_id = m.id', (err, results) => {
+        if(err){
+            console.log(err);
+            return;
+        };
+        console.log(' ')
+        console.log('-------------------------EMPLOYEES-----------------------------')
+        console.table(results)
+        console.log('Press up or down to continue...')
+    })
+};
+
+const addDepartment = (department_name) => {
+    db.query(`INSERT INTO department (department_name) VALUES ("${department_name}")`, (err, results) => {
+        if(err){
+            console.log(err);
+            return;
+        };
+    });
+};
+
+const addEmployee = (first_name, last_name, role_id, manager_id) => {
+    db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${first_name}", "${last_name}", "${role_id}", "${manager_id}")`, (err, results) => {
+        if(err){
+            console.log(err);
+            return;
+        };
+    });
+};
+
+const addRole = (title, department_id, salary) => {
+    db.query(`INSERT INTO role (title, department_id, salary) VALUES ("${title}", "${department_id}", "${salary}")`, (err, results) => {
+        if(err){
+            console.log(err);
+            return;
+        };
+    });
+};
+
+const updateRole = (role_id, first_name, last_name) => {
+    db.query(`UPDATE employee SET role_id = ${role_id} WHERE first_name = "${first_name}" AND last_name = "${last_name}"`, (err, results) => {    //still need to change the manager somehow... another function inside that does a update..
+        if(err){
+            console.log(err);
+            return;
+        };
+    });
+};
+
+module.exports = { viewAllDepartments, viewAllRoles, viewAllEmployees, addDepartment, addEmployee, addRole, updateRole };
