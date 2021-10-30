@@ -33,8 +33,7 @@ The user can keep up with their employees using multiple tables. They can see al
 
 ## Images  
 
-The following shows a video using the command line:  
-[![alt website](./image/employeeDataBase.png)](https://drive.google.com/file/d/1NbY8yjSaeqzmMQ51XxbK_2PwEWU5l2VN/view)  
+![alt website](./image/employeeDataBase.png)  
 
 ## Credits  
 
