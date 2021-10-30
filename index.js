@@ -55,19 +55,55 @@ const askQuestionMain = (data) => {
         if (mainQuestion === 'Update Employee Role') {
             //Sends to the Questions about adding an employee
             askUpdateEmployeeRole(questions);
-        }
+        };
+
+        if (mainQuestion === 'View All Roles') {
+            //Sends to the Questions about adding an employee
+            build.viewAllRoles();
+            askQuestionMain(questions);
+        };
+
+        if (mainQuestion === 'Add Role') {
+            //Sends to the Questions about adding an employee
+            askAddRole(questions);
+        };
+        if (mainQuestion === 'View All Departments') {
+            //Sends to the Questions about adding an employee
+            build.viewAllDepartments();
+            askQuestionMain(questions);
+        };
+
+        if (mainQuestion === 'Add Department') {
+            //Sends to the Questions about adding an employee
+            askAddDepartment(questions);
+        };
+
+        if (mainQuestion === 'Quit') {
+            //Sends to the Questions about adding an employee
+            console.log(
+                art({
+                    name: 'GOODBY!',
+                    font: 'soft',
+                    lineChars:  8,
+                    padding: 2,
+                    borderColor: 'purple',
+                    logoColor: 'bold-green',
+                    textColor: 'purple',
+                })
+                .emptyLine()
+                .right('version 3.7.123')
+                .render()
+            );
+            process.exit();
+        };
     })
 };
 
 const askAddingEmployee = async (data) => {
     const roles = await db.query('SELECT * FROM role');
     const roleList = roles.map(({ title, id }) => ({ name: title, value: id }));
-    console.log(roles);
-    console.log(roleList);
     const manager = await db.query('SELECT * FROM employee');
     const managerList = manager.map(({ first_name, last_name, id }) => ({ name: `${first_name}, ${last_name}`, value: `${id}` }));
-    console.log(manager);
-    console.log(managerList);
     prompt([
         {
             type: 'input',
@@ -95,7 +131,6 @@ const askAddingEmployee = async (data) => {
     .then(async (answer) => {
         //console.log(answer);
         const { firstName, lastName, roles, managerName } = answer;
-        console.log(firstName, lastName, roles, managerName);
         build.addEmployee(firstName, lastName, roles, managerName);
         build.viewAllEmployees();
         askQuestionMain(questions);
@@ -105,7 +140,6 @@ const askAddingEmployee = async (data) => {
 const askUpdateEmployeeRole = async (data) => {
     const empList = await db.query('SELECT * FROM employee');
     const employee = empList.map(({first_name, last_name, id }) => ({name: `${first_name}, ${last_name}`, value: id }));
-    console.log(employee);
     const roles = await db.query('SELECT * FROM role');
     const roleList = roles.map(({ title, id }) => ({ name: title, value: id }));
     prompt([
@@ -129,7 +163,53 @@ const askUpdateEmployeeRole = async (data) => {
         build.viewAllEmployees();
         askQuestionMain(questions);
     });
-}
+};
+
+const askAddRole = async (data) => {
+    const departments = await db.query('SELECT * FROM department');
+    const department = departments.map(({department_name, id}) => ({name: department_name, value: id}));
+    prompt([
+        {
+            type: 'list',
+            message: data[4],
+            name: 'department',
+            choices: department
+        },
+        {
+            type: 'input',
+            message: data[2],
+            name: 'roleName'
+        },
+        {
+            type: 'input',
+            message: data[3],
+            name: 'salary'
+        },
+    ])
+    .then(async (answer) => {
+        const { department, roleName, salary } = answer;
+        console.log(department, roleName, salary);
+        build.addRole(department, roleName, salary);
+        build.viewAllRoles();
+        askQuestionMain(questions);
+    });
+};
+
+const askAddDepartment = async (data) => {
+    prompt([
+        {
+            type: 'input',
+            message: data[1],
+            name: 'department'
+        }
+    ])
+    .then(async (answer) => {
+        const { department } = answer;
+        build.addDepartment(department);
+        build.viewAllDepartments();
+        askQuestionMain(questions);
+    });
+};
 
 function init() {
     console.log(

@@ -1,7 +1,7 @@
 db = require("../connection/connection.js");
 
 const viewAllDepartments = () => {
-    db.query('SELECT * FROM departments', function (err, results) {
+    db.query('SELECT * FROM department', function (err, results) {
         console.log(' ')
         console.log('-------------------------DEPARTMENTS-----------------------------')
         console.table(results)
@@ -53,7 +53,7 @@ const addEmployee = (first_name, last_name, role_id, manager_id) => {
     });
 };
 
-const addRole = (title, department_id, salary) => {
+const addRole = (department_id, title, salary) => {
     db.query(`INSERT INTO role (title, department_id, salary) VALUES ("${title}", "${department_id}", "${salary}")`, (err, results) => {
         if(err){
             console.log(err);
