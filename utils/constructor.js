@@ -62,8 +62,8 @@ const addRole = (title, department_id, salary) => {
     });
 };
 
-const updateRole = (role_id, first_name, last_name) => {
-    db.query(`UPDATE employee SET role_id = ${role_id} WHERE first_name = "${first_name}" AND last_name = "${last_name}"`, (err, results) => {    //still need to change the manager somehow... another function inside that does a update..
+const updateRole = (id, role_id) => {
+    db.query(`UPDATE employee SET role_id = ${role_id} WHERE id = ${id}`, (err, results) => {    //still need to change the manager somehow... another function inside that does a update..
         if(err){
             console.log(err);
             return;

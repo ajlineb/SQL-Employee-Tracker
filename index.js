@@ -28,7 +28,7 @@ const askQuestionMain = (data) => {
             choices: [
                 'View All Employees',
                 'Add Employee',
-                'Update Employee',
+                'Update Employee Role',
                 'View All Roles',
                 'Add Role',
                 'View All Departments',
@@ -50,6 +50,11 @@ const askQuestionMain = (data) => {
         if (mainQuestion === 'Add Employee') {
             //Sends to the Questions about adding an employee
             askAddingEmployee(questions);
+        };
+
+        if (mainQuestion === 'Update Employee Role') {
+            //Sends to the Questions about adding an employee
+            askUpdateEmployeeRole(questions);
         }
     })
 };
@@ -88,7 +93,7 @@ const askAddingEmployee = async (data) => {
         },
     ])
     .then(async (answer) => {
-        console.log(answer);
+        //console.log(answer);
         const { firstName, lastName, roles, managerName } = answer;
         console.log(firstName, lastName, roles, managerName);
         build.addEmployee(firstName, lastName, roles, managerName);
@@ -96,6 +101,35 @@ const askAddingEmployee = async (data) => {
         askQuestionMain(questions);
     })
 };
+
+const askUpdateEmployeeRole = async (data) => {
+    const empList = await db.query('SELECT * FROM employee');
+    const employee = empList.map(({first_name, last_name, id }) => ({name: `${first_name}, ${last_name}`, value: id }));
+    console.log(employee);
+    const roles = await db.query('SELECT * FROM role');
+    const roleList = roles.map(({ title, id }) => ({ name: title, value: id }));
+    prompt([
+        {
+            type: 'list',
+            message: data[9],
+            name: 'employee',
+            choices: employee
+        },
+        {
+            type: 'list',
+            message: data[10],
+            name: 'role',
+            choices: roleList
+        }
+    ])
+    .then(async (answer) => {
+        const { employee, role } = answer;
+        console.log(employee, role);
+        build.updateRole(employee, role);
+        build.viewAllEmployees();
+        askQuestionMain(questions);
+    });
+}
 
 function init() {
     console.log(
